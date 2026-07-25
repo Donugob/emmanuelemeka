@@ -1,0 +1,49 @@
+---
+const links = [
+  { href: "#work", label: "Work" },
+  { href: "#scholarship", label: "Scholarship" },
+  { href: "#capabilities", label: "Capabilities" },
+  { href: "#media", label: "Media" },
+  { href: "#contact", label: "Contact" },
+];
+---
+
+<header
+  class="no-print fixed inset-x-0 top-0 z-50 border-b border-line bg-ink/80 backdrop-blur-md"
+>
+  <nav
+    class="section-max section-pad flex h-16 items-center justify-between"
+    aria-label="Primary"
+  >
+    <a href="#top" class="group flex items-baseline gap-2">
+      <span class="font-display text-xl tracking-tight text-paper transition group-hover:text-brass">
+        Ugo.B
+      </span>
+      <span class="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-paper-muted sm:inline">
+        emmanuelemeka.cv
+      </span>
+    </a>
+
+    <ul class="hidden items-center gap-1 md:flex">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="rounded-md px-3 py-2 text-sm text-paper-muted transition hover:bg-ink-soft hover:text-paper"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a
+      href="#contact"
+      class="rounded-full border border-brass/40 bg-brass/10 px-4 py-1.5 text-sm font-medium text-brass-bright transition hover:border-brass hover:bg-brass/20"
+    >
+      Hire me
+    </a>
+  </nav>
+</header>

@@ -1,0 +1,103 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Emeka Emmanuel Ugonna · Ugo.B — Engineer, Founder & Legal Scholar",
+  description = "Full-stack software engineer and legal scholar operating at the intersection of high-concurrency digital platforms and digital jurisprudence. Founder of Build With Ugo.B and Votesphere.",
+} = Astro.props;
+
+const canonical = "https://emmanuelemeka.cv";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Emeka Emmanuel Ugonna" />
+    <meta name="theme-color" content="#0B0D10" />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="emmanuelemeka.cv" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+  <body class="overflow-x-hidden">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-brass focus:px-4 focus:py-2 focus:text-ink focus:font-medium"
+    >
+      Skip to content
+    </a>
+    <slot />
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+      );
+
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+      // Metric count-up once visible
+      const counters = document.querySelectorAll<HTMLElement>("[data-count]");
+      const countObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const el = entry.target as HTMLElement;
+            const target = Number(el.dataset.count);
+            const suffix = el.dataset.suffix ?? "";
+            const prefix = el.dataset.prefix ?? "";
+            const duration = 1200;
+            const start = performance.now();
+
+            const tick = (now: number) => {
+              const t = Math.min(1, (now - start) / duration);
+              const eased = 1 - Math.pow(1 - t, 3);
+              const value = Math.round(target * eased);
+              el.textContent = `${prefix}${value.toLocaleString()}${suffix}`;
+              if (t < 1) requestAnimationFrame(tick);
+            };
+
+            requestAnimationFrame(tick);
+            countObserver.unobserve(el);
+          }
+        },
+        { threshold: 0.4 },
+      );
+
+      counters.forEach((el) => countObserver.observe(el));
+    </script>
+  </body>
+</html>

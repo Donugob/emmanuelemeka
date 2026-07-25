@@ -1,0 +1,226 @@
+---
+import SectionLabel from "./SectionLabel.astro";
+
+const projects = [
+  {
+    title: "Votesphere",
+    role: "Creator & Core Engineer",
+    url: "https://votesphere.com.ng",
+    urlLabel: "votesphere.com.ng",
+    description:
+      "Secure, high-concurrency online voting platform for live monetized and non-monetized events — including elections. Built for real-time traffic, payment integrity, and streaming results.",
+    highlights: [
+      "Payment gateways: Paystack, Flutterwave, Monnify",
+      "Secure voting verification algorithms",
+      "Live real-time result streaming",
+      "Custom analytics for event operators",
+    ],
+    metrics: [
+      { value: 1.6, suffix: "M+", label: "Gross (initial 2 weeks)", isDecimal: true },
+      { value: 100, suffix: "k+", label: "Net profit (same window)", isDecimal: false },
+    ],
+    featured: true,
+    tags: ["SaaS", "Realtime", "Payments", "Elections"],
+  },
+  {
+    title: "Build With Ugo.B",
+    role: "Founder & Principal Engineer",
+    url: "https://build-with-ugob.com.ng",
+    urlLabel: "build-with-ugob.com.ng",
+    description:
+      "Digital product studio engineering custom high-performance web applications, modern APIs, and scalable infrastructure for clients who need more than a template.",
+    highlights: [
+      "Custom web architectures",
+      "Performance & optimization audits",
+      "High-converting client applications",
+    ],
+    featured: false,
+    tags: ["Agency", "Web Apps", "APIs"],
+  },
+  {
+    title: "NaijaLawExplained",
+    role: "Creator & Legal Educator",
+    url: null,
+    urlLabel: null,
+    description:
+      "Faceless legal enlightenment brand breaking complex Nigerian statutes into digestible visual guides and YouTube content for everyday citizens.",
+    highlights: [],
+    featured: false,
+    tags: ["Media", "Legal Education"],
+  },
+  {
+    title: "Street Saga Podcast",
+    role: "Host",
+    url: null,
+    urlLabel: null,
+    description:
+      "Live, interactive X Spaces dissecting tech engineering, career growth, law, and social dynamics with a high-engagement community.",
+    highlights: [],
+    featured: false,
+    tags: ["Audio", "X Spaces", "Advocacy"],
+  },
+];
+---
+
+<section
+  id="work"
+  class="section-pad border-t border-line py-20 sm:py-28"
+  aria-labelledby="work-heading"
+>
+  <div class="section-max">
+    <div class="reveal">
+      <SectionLabel number="01" label="Selected Work" />
+      <h2
+        id="work-heading"
+        class="max-w-2xl font-display text-3xl tracking-tight text-paper sm:text-4xl"
+      >
+        Proof over pitch
+      </h2>
+      <p class="mt-4 max-w-2xl text-paper-muted">
+        Flagship platforms first. Media and education brands extend the same thesis:
+        systems people trust, explained in language people understand.
+      </p>
+    </div>
+
+    <!-- Flagship: Votesphere -->
+    {
+      (() => {
+        const flagship = projects[0];
+        return (
+          <article class="reveal reveal-delay-1 mt-14 overflow-hidden rounded-2xl border border-line bg-ink-elevated">
+            <div class="grid lg:grid-cols-12">
+              <div class="border-b border-line p-6 sm:p-8 lg:col-span-7 lg:border-b-0 lg:border-r">
+                <div class="flex flex-wrap items-center gap-3">
+                  <span class="rounded-full border border-brass/40 bg-brass/10 px-3 py-0.5 font-mono text-[10px] uppercase tracking-wider text-brass-bright">
+                    Flagship
+                  </span>
+                  <span class="font-mono text-xs text-paper-muted">{flagship.role}</span>
+                </div>
+
+                <h3 class="mt-4 font-display text-3xl text-paper sm:text-4xl">{flagship.title}</h3>
+
+                {flagship.url && (
+                  <a
+                    href={flagship.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-2 inline-flex items-center gap-1.5 font-mono text-sm text-brass transition hover:text-brass-bright"
+                  >
+                    {flagship.urlLabel}
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path
+                        d="M4 12L12 4M6 4h6v6"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </a>
+                )}
+
+                <p class="mt-5 max-w-prose leading-relaxed text-paper-muted">
+                  {flagship.description}
+                </p>
+
+                <ul class="mt-6 space-y-2">
+                  {flagship.highlights.map((item) => (
+                    <li class="flex gap-2 text-sm text-paper">
+                      <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brass" aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="mt-6 flex flex-wrap gap-2">
+                  {flagship.tags.map((tag) => (
+                    <span class="rounded-md border border-line bg-ink-soft px-2.5 py-1 font-mono text-[11px] text-paper-muted">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div class="flex flex-col justify-center gap-6 bg-ink-soft/40 p-6 sm:p-8 lg:col-span-5">
+                <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-brass">
+                  Initial traction
+                </p>
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
+                  {flagship.metrics?.map((m) => (
+                    <div class="rounded-xl border border-line bg-ink-elevated/80 p-5">
+                      <p class="font-display text-4xl text-brass-bright sm:text-5xl">
+                        {m.isDecimal ? (
+                          <span>
+                            {m.value}
+                            {m.suffix}
+                          </span>
+                        ) : (
+                          <span
+                            data-count={m.value}
+                            data-suffix={m.suffix}
+                          >
+                            0{m.suffix}
+                          </span>
+                        )}
+                      </p>
+                      <p class="mt-2 text-sm text-paper-muted">{m.label}</p>
+                    </div>
+                  ))}
+                </div>
+                <p class="text-xs leading-relaxed text-paper-muted">
+                  Powering real-world live voting events. Currency figures as reported for
+                  the initial two-week window.
+                </p>
+              </div>
+            </div>
+          </article>
+        );
+      })()
+    }
+
+    <!-- Secondary projects -->
+    <div class="mt-6 grid gap-6 md:grid-cols-3">
+      {
+        projects.slice(1).map((project, i) => (
+          <article
+            class:list={[
+              "reveal group flex flex-col rounded-2xl border border-line bg-ink-elevated/60 p-6 transition hover:border-brass/30 hover:bg-ink-elevated",
+              i === 0 && "reveal-delay-1",
+              i === 1 && "reveal-delay-2",
+              i === 2 && "reveal-delay-3",
+            ]}
+          >
+            <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-paper-muted">
+              {project.role}
+            </p>
+            <h3 class="mt-3 font-display text-2xl text-paper transition group-hover:text-brass-bright">
+              {project.title}
+            </h3>
+            {project.url ? (
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-1 font-mono text-xs text-brass hover:text-brass-bright"
+              >
+                {project.urlLabel}
+              </a>
+            ) : (
+              <span class="mt-1 font-mono text-xs text-paper-muted/60">Link soon</span>
+            )}
+            <p class="mt-4 flex-1 text-sm leading-relaxed text-paper-muted">
+              {project.description}
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="rounded-md border border-line bg-ink-soft px-2 py-0.5 font-mono text-[10px] text-paper-muted">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

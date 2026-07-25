@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0d10;
+  --color-ink-elevated: #12151a;
+  --color-ink-soft: #1a1e26;
+  --color-paper: #f4f1ea;
+  --color-paper-muted: #c8c2b4;
+  --color-parchment: #ede6d9;
+  --color-brass: #c4a35a;
+  --color-brass-bright: #d4b86a;
+  --color-brass-dim: #8a7340;
+  --color-line: rgba(244, 241, 234, 0.1);
+  --color-line-strong: rgba(244, 241, 234, 0.18);
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-ink text-paper font-sans antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(196, 163, 90, 0.08), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(196, 163, 90, 0.04), transparent);
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-brass) 40%, transparent);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .section-pad {
+    @apply px-5 sm:px-8 lg:px-12;
+  }
+
+  .section-max {
+    @apply mx-auto w-full max-w-6xl;
+  }
+
+  .hairline {
+    border-color: var(--color-line);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity 0.7s var(--ease-out-expo),
+      transform 0.7s var(--ease-out-expo);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 {
+    transition-delay: 80ms;
+  }
+  .reveal-delay-2 {
+    transition-delay: 160ms;
+  }
+  .reveal-delay-3 {
+    transition-delay: 240ms;
+  }
+  .reveal-delay-4 {
+    transition-delay: 320ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Print / CV stylesheet */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    background-image: none !important;
+  }
+
+  nav,
+  .no-print {
+    display: none !important;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  section {
+    break-inside: avoid;
+  }
+}
