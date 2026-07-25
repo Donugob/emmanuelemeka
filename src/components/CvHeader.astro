@@ -1,30 +1,29 @@
 ---
 const contacts = [
-  { label: "emmanuelemeka.cv", href: "https://emmanuelemeka.cv", external: true },
-  { label: "hello@emmanuelemeka.cv", href: "mailto:hello@emmanuelemeka.cv", external: false },
+  { label: "contactugob@gmail.com", href: "mailto:contactugob@gmail.com", external: false },
+  { label: "x.com/Don_ugob", href: "https://x.com/Don_ugob", external: true },
   { label: "Votesphere.com.ng", href: "https://votesphere.com.ng", external: true },
 ];
 ---
 
-<header id="top" class="reveal border-b border-rule pb-8">
-  <div class="flex flex-wrap items-start justify-between gap-4">
-    <div>
-      <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-[#8a7340]">
-        Curriculum Vitae
-      </p>
-      <h1 class="mt-2 font-display text-4xl leading-[1.05] tracking-tight text-ink sm:text-5xl">
+<header id="top" class="reveal border-b border-rule pb-6 sm:pb-8">
+  <div class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+    <div class="min-w-0">
+      <h1
+        class="font-display text-[1.85rem] leading-[1.08] tracking-tight text-ink xs:text-4xl sm:text-5xl"
+      >
         Emeka Emmanuel Ugonna
       </h1>
-      <p class="mt-2 font-display text-xl italic text-ink-soft sm:text-2xl">
-        Ugo.B
-      </p>
-      <p class="mt-3 max-w-xl text-sm font-medium tracking-wide text-ink-soft sm:text-base">
+      <p class="mt-1.5 font-display text-lg italic text-ink-soft sm:mt-2 sm:text-2xl">Ugo.B</p>
+      <p
+        class="mt-2 max-w-xl text-[13px] font-medium leading-snug tracking-wide text-ink-soft sm:mt-3 sm:text-base"
+      >
         Full-Stack Software Engineer · Founder · Legal Scholar
       </p>
     </div>
 
     <div
-      class="rounded-lg border border-chip-border bg-chip/60 px-3 py-2 text-right font-mono text-[10px] uppercase tracking-wider text-ink-muted"
+      class="w-fit rounded-lg border border-chip-border bg-chip/60 px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-ink-muted sm:text-right"
     >
       <p class="text-[#8a7340]">Status</p>
       <p class="mt-1 normal-case tracking-normal text-ink-soft">Final-year Law · 500L</p>
@@ -32,13 +31,15 @@ const contacts = [
     </div>
   </div>
 
-  <ul class="mt-6 flex flex-wrap gap-x-5 gap-y-2 border-t border-rule pt-4 text-sm text-ink-soft">
+  <ul
+    class="mt-5 flex flex-col gap-2 border-t border-rule pt-4 text-[13px] text-ink-soft sm:mt-6 sm:flex-row sm:flex-wrap sm:gap-x-5 sm:gap-y-2 sm:text-sm"
+  >
     {
       contacts.map((c) => (
-        <li>
+        <li class="min-w-0">
           <a
             href={c.href}
-            class="underline decoration-rule underline-offset-4 transition hover:text-ink hover:decoration-[#8a7340]"
+            class="inline-block break-all underline decoration-rule underline-offset-4 transition hover:text-ink hover:decoration-[#8a7340]"
             target={c.external ? "_blank" : undefined}
             rel={c.external ? "noopener noreferrer" : undefined}
           >

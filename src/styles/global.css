@@ -36,6 +36,8 @@
   html {
     scroll-behavior: smooth;
     color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
@@ -59,7 +61,6 @@
 }
 
 @layer components {
-  /* The physical CV sheet */
   .cv-paper {
     background-color: var(--color-paper);
     color: var(--color-ink);
@@ -70,12 +71,17 @@
   }
 
   .cv-section {
-    scroll-margin-top: 5.5rem;
+    scroll-margin-top: 7.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .cv-section {
+      scroll-margin-top: 5.5rem;
+    }
   }
 
   .cv-section-title {
-    @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em];
-    color: var(--color-brass-dim, #8a7340);
+    @apply font-mono text-[10px] font-medium uppercase tracking-[0.18em] sm:text-[11px] sm:tracking-[0.22em];
     color: #8a7340;
   }
 
@@ -88,12 +94,14 @@
     @apply relative transition-colors duration-300;
   }
 
-  .cv-entry:hover {
-    background: color-mix(in srgb, var(--color-brass) 6%, transparent);
+  @media (hover: hover) {
+    .cv-entry:hover {
+      background: color-mix(in srgb, var(--color-brass) 6%, transparent);
+    }
   }
 
   .cv-chip {
-    @apply inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[11px];
+    @apply inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[10px] sm:text-[11px];
     background: var(--color-chip);
     border: 1px solid var(--color-chip-border);
     color: var(--color-ink-soft);
@@ -102,6 +110,7 @@
   .toc-link {
     @apply flex items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition;
     color: var(--color-desk-muted);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .toc-link:hover {
@@ -158,15 +167,23 @@
   .reveal-delay-4 {
     transition-delay: 240ms;
   }
+
+  /* Screen-only professional print document */
+  .print-only {
+    display: none;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
 }
 
-/* Reading progress */
 #read-progress {
   transform-origin: left center;
   transform: scaleX(0);
@@ -189,54 +206,138 @@
   }
 }
 
-/* Print = pure CV document */
+/* ——— Professional print CV (no interactive chrome) ——— */
 @media print {
   @page {
-    margin: 12mm;
+    size: A4;
+    margin: 14mm 16mm;
   }
 
   html {
     color-scheme: light;
+    background: white !important;
   }
 
   body {
     background: white !important;
     background-image: none !important;
-    color: black !important;
+    color: #111 !important;
+    font-size: 10.5pt;
+    line-height: 1.35;
   }
 
   .no-print,
+  .screen-only,
   #read-progress,
-  aside[aria-label="CV sections"] {
+  nav,
+  header.no-print,
+  aside {
     display: none !important;
   }
 
-  main {
-    padding: 0 !important;
+  .print-only {
+    display: block !important;
   }
 
-  .cv-paper {
-    box-shadow: none !important;
-    background: white !important;
-    max-width: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
+  #professional-cv-print {
+    display: block !important;
+    color: #111;
+    font-family: "Times New Roman", Times, Georgia, serif;
+    max-width: 100%;
+  }
+
+  #professional-cv-print h1 {
+    font-size: 18pt;
+    font-weight: 700;
+    margin: 0 0 2pt;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  #professional-cv-print .pcv-headline {
+    font-size: 10.5pt;
+    font-style: italic;
+    margin: 0 0 6pt;
+    color: #333;
+  }
+
+  #professional-cv-print .pcv-contact {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: #333;
+    margin: 0 0 8pt;
+    border-bottom: 1.5pt solid #111;
+    padding-bottom: 8pt;
+  }
+
+  #professional-cv-print section {
+    margin-top: 10pt;
+    break-inside: avoid;
+  }
+
+  #professional-cv-print h2 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 4pt;
+    padding-bottom: 2pt;
+    border-bottom: 1pt solid #c4a35a;
+    color: #111;
+  }
+
+  #professional-cv-print p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.4;
+    margin: 0 0 4pt;
+    color: #111;
+  }
+
+  #professional-cv-print .pcv-role {
+    margin-bottom: 7pt;
+  }
+
+  #professional-cv-print .pcv-role-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 8pt;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9.5pt;
+  }
+
+  #professional-cv-print .pcv-role-head strong {
+    font-weight: 700;
+  }
+
+  #professional-cv-print .pcv-role-head span {
+    white-space: nowrap;
+    color: #444;
+    font-size: 8.5pt;
+  }
+
+  #professional-cv-print .pcv-org {
+    font-style: italic;
+    color: #333;
+    margin-bottom: 2pt;
+  }
+
+  #professional-cv-print ul {
+    margin: 2pt 0 0;
+    padding-left: 14pt;
+  }
+
+  #professional-cv-print li {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.35;
+    margin-bottom: 1.5pt;
   }
 
   a {
     color: inherit !important;
     text-decoration: none !important;
-  }
-
-  .cv-entry:hover {
-    background: transparent !important;
-  }
-
-  .expand-panel {
-    grid-template-rows: 1fr !important;
-  }
-
-  .print-hide-details .expand-panel:not(.is-open) {
-    grid-template-rows: 0fr !important;
   }
 }

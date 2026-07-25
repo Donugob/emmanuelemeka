@@ -170,8 +170,10 @@ const canonical = "https://emmanuelemeka.cv";
         }
       });
 
-      // ——— Print ———
-      document.getElementById("btn-print")?.addEventListener("click", () => window.print());
+      // ——— Print professional CV only ———
+      const printCv = () => window.print();
+      document.getElementById("btn-print")?.addEventListener("click", printCv);
+      document.getElementById("btn-print-mobile")?.addEventListener("click", printCv);
 
       // ——— Copy email ———
       const copyBtn = document.getElementById("btn-copy-email");
