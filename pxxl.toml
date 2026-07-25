@@ -1,0 +1,12 @@
+# Pxxl deploy config — https://docs.pxxl.app/api/pxxl-toml
+# Static Astro site: build to dist/, then serve via preview on PORT.
+
+[build]
+language = "javascript"
+packageManager = "npm"
+nodeVersion = "22"
+installCommand = "npm install"
+buildCommand = "npm run build"
+startCommand = "npm start"
+outputDirectory = "dist"
+port = 4321
