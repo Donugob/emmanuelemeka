@@ -18,11 +18,20 @@ const canonical = "https://emmanuelemeka.cv";
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      Device-width + initial-scale=1 is required.
+      maximum-scale is intentionally NOT locked (accessibility).
+      Horizontal overflow was the real “zoomed in” culprit — fixed in CSS.
+    -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="author" content="Emeka Emmanuel Ugonna" />
     <meta name="theme-color" content="#0C0E12" />
+    <meta name="format-detection" content="telephone=no" />
 
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -46,7 +55,7 @@ const canonical = "https://emmanuelemeka.cv";
 
     <title>{title}</title>
   </head>
-  <body class="overflow-x-hidden">
+  <body>
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-brass focus:px-4 focus:py-2 focus:font-medium focus:text-ink"
@@ -66,7 +75,7 @@ const canonical = "https://emmanuelemeka.cv";
             }
           }
         },
-        { rootMargin: "0px 0px -6% 0px", threshold: 0.06 },
+        { rootMargin: "0px 0px -4% 0px", threshold: 0.04 },
       );
       document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
@@ -77,10 +86,9 @@ const canonical = "https://emmanuelemeka.cv";
       const updateProgress = () => {
         if (!progress || !paper) return;
         const rect = paper.getBoundingClientRect();
-        const total = paper.scrollHeight - window.innerHeight;
-        const scrolled = Math.min(Math.max(-rect.top, 0), Math.max(total, 1));
-        const p = total > 0 ? scrolled / total : 0;
-        progress.style.transform = `scaleX(${p})`;
+        const total = Math.max(paper.scrollHeight - window.innerHeight, 1);
+        const scrolled = Math.min(Math.max(-rect.top, 0), total);
+        progress.style.transform = `scaleX(${scrolled / total})`;
       };
 
       window.addEventListener("scroll", updateProgress, { passive: true });
@@ -103,6 +111,11 @@ const canonical = "https://emmanuelemeka.cv";
         tocLinks.forEach((link) => {
           link.classList.toggle("is-active", link.dataset.toc === id);
         });
+        // Keep active chip visible in the horizontal strip
+        const activeChip = document.querySelector<HTMLElement>(
+          `#cv-toc-mobile [data-toc="${id}"]`,
+        );
+        activeChip?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       };
 
       const sectionObserver = new IntersectionObserver(
@@ -112,7 +125,7 @@ const canonical = "https://emmanuelemeka.cv";
             .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
           if (visible[0]?.target?.id) setActive(visible[0].target.id);
         },
-        { rootMargin: "-20% 0px -55% 0px", threshold: [0.1, 0.25, 0.5] },
+        { rootMargin: "-30% 0px -50% 0px", threshold: [0.08, 0.2, 0.4] },
       );
 
       sectionIds.forEach((id) => {
@@ -135,7 +148,6 @@ const canonical = "https://emmanuelemeka.cv";
           }
         });
 
-        // Sync chevron for default-open panels
         const panelId = btn.getAttribute("aria-controls");
         const panel = panelId ? document.getElementById(panelId) : null;
         if (panel?.classList.contains("is-open")) {
@@ -144,7 +156,7 @@ const canonical = "https://emmanuelemeka.cv";
         }
       });
 
-      // ——— Keyboard section jump (1–7), ignore when typing ———
+      // ——— Keyboard section jump (1–7) ———
       const keyMap: Record<string, string> = {
         "1": "profile",
         "2": "experience",

@@ -5,36 +5,36 @@ const cvPdf = "/cv/Emeka-Emmanuel-Ugonna-CV.pdf";
 
 <section
   id="contact"
-  class="cv-section reveal reveal-delay-1 pt-8 pb-2 sm:pt-10"
+  class="cv-section reveal reveal-delay-1 pt-7 pb-1 sm:pt-10"
   aria-labelledby="contact-h"
 >
-  <div class="mb-3 flex items-center gap-3">
-    <h2 id="contact-h" class="cv-section-title">07 — Contact & Engagements</h2>
-    <div class="cv-rule flex-1"></div>
+  <div class="mb-2.5 flex min-w-0 items-center gap-2 sm:mb-3 sm:gap-3">
+    <h2 id="contact-h" class="cv-section-title shrink-0">07 — Contact</h2>
+    <div class="cv-rule"></div>
   </div>
 
   <div
-    class="rounded-xl border border-chip-border bg-gradient-to-br from-chip/80 to-paper px-4 py-5 sm:px-6 sm:py-6"
+    class="min-w-0 rounded-xl border border-chip-border bg-gradient-to-br from-chip/80 to-paper px-3.5 py-4 sm:px-6 sm:py-6"
   >
     <p class="font-display text-xl leading-snug text-ink sm:text-3xl">
       Open to builds that have to hold up.
     </p>
-    <p class="mt-3 max-w-prose text-sm leading-relaxed text-ink-soft">
+    <p class="mt-2.5 max-w-prose text-[13px] leading-relaxed text-ink-soft sm:mt-3 sm:text-sm">
       Product engineering, platform builds, agency work via Build With Ugo.B, and tech–law
       conversations around cybercrime, equity, and digital governance.
     </p>
 
-    <div class="mt-5 flex flex-col gap-2.5 sm:mt-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+    <div class="mt-4 flex flex-col gap-2 sm:mt-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
       <a
         href={`mailto:${email}`}
-        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-paper transition hover:bg-ink-soft"
+        class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-paper transition active:scale-[0.98] hover:bg-ink-soft sm:w-auto"
       >
         Email me
       </a>
       <button
         type="button"
         id="btn-copy-email"
-        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-chip-border bg-paper px-5 py-2.5 text-sm font-medium text-ink-soft transition hover:border-[#8a7340] hover:text-ink"
+        class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-chip-border bg-paper px-5 py-2.5 text-sm font-medium text-ink-soft transition active:scale-[0.98] hover:border-[#8a7340] hover:text-ink sm:w-auto"
         data-email={email}
       >
         <span data-copy-label>Copy email</span>
@@ -42,9 +42,9 @@ const cvPdf = "/cv/Emeka-Emmanuel-Ugonna-CV.pdf";
       <a
         href={cvPdf}
         download="Emeka-Emmanuel-Ugonna-CV.pdf"
-        class="no-print inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-chip-border bg-paper px-5 py-2.5 text-sm font-medium text-ink-soft transition hover:border-[#8a7340] hover:text-ink"
+        class="no-print inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-chip-border bg-paper px-5 py-2.5 text-sm font-medium text-ink-soft transition active:scale-[0.98] hover:border-[#8a7340] hover:text-ink sm:w-auto"
       >
-        <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <svg class="h-4 w-4 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path
             d="M8 2v8m0 0L5 7m3 3l3-3M3 12.5h10"
             stroke="currentColor"
@@ -63,9 +63,13 @@ const cvPdf = "/cv/Emeka-Emmanuel-Ugonna-CV.pdf";
       </button>
     </div>
 
-    <p class="mt-4 break-all font-mono text-xs text-ink-muted">{email}</p>
+    <p class="mt-3 break-anywhere font-mono text-[11px] text-ink-muted sm:mt-4 sm:text-xs">
+      {email}
+    </p>
 
-    <ul class="mt-5 grid gap-2.5 border-t border-rule pt-5 text-sm text-ink-soft sm:grid-cols-2">
+    <ul
+      class="mt-4 grid grid-cols-1 gap-2 border-t border-rule pt-4 text-[13px] text-ink-soft sm:mt-5 sm:grid-cols-2 sm:gap-2.5 sm:text-sm"
+    >
       {
         [
           "High-concurrency web platforms & SaaS",
@@ -75,7 +79,7 @@ const cvPdf = "/cv/Emeka-Emmanuel-Ugonna-CV.pdf";
         ].map((item) => (
           <li class="flex gap-2">
             <span class="shrink-0 text-[#8a7340]">✓</span>
-            {item}
+            <span class="min-w-0">{item}</span>
           </li>
         ))
       }
@@ -83,10 +87,10 @@ const cvPdf = "/cv/Emeka-Emmanuel-Ugonna-CV.pdf";
   </div>
 
   <footer
-    class="mt-8 flex flex-col gap-3 border-t border-rule pt-6 text-xs text-ink-muted sm:mt-10 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between"
+    class="mt-7 flex min-w-0 flex-col gap-2 border-t border-rule pt-5 text-[11px] text-ink-muted sm:mt-10 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pt-6 sm:text-xs"
   >
-    <div>
-      <p class="font-display text-base text-ink">Emeka Emmanuel Ugonna · Ugo.B</p>
+    <div class="min-w-0">
+      <p class="font-display text-[15px] text-ink sm:text-base">Emeka Emmanuel Ugonna · Ugo.B</p>
       <p class="mt-1 font-mono">emmanuelemeka.cv</p>
     </div>
     <p class="font-mono">References available on request</p>

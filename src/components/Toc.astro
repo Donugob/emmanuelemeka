@@ -10,7 +10,7 @@ const sections = [
 ];
 ---
 
-<aside class="no-print hidden xl:block" aria-label="CV sections">
+<aside class="no-print hidden min-w-0 xl:block" aria-label="CV sections">
   <nav class="sticky top-24 w-44" aria-label="On this CV">
     <p class="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-desk-muted">Sections</p>
     <ul class="space-y-0.5" id="cv-toc">
@@ -32,23 +32,19 @@ const sections = [
   </nav>
 </aside>
 
-<!-- Mobile section chips — full-bleed sticky, scroll-snap friendly -->
+<!-- Mobile section chips: width-contained horizontal scroll (no negative margins) -->
 <div
-  class="no-print sticky top-14 z-40 -mx-3 mb-5 border-b border-desk-line bg-desk/95 backdrop-blur-md sm:-mx-6 sm:mb-6 xl:hidden"
+  class="mobile-toc no-print sticky top-14 z-40 mb-4 border-b border-desk-line bg-desk/95 backdrop-blur-md xl:hidden"
 >
   <div
-    class="flex gap-1.5 overflow-x-auto overscroll-x-contain px-3 py-2.5 [-ms-overflow-style:none] [scrollbar-width:none] sm:px-6 [&::-webkit-scrollbar]:hidden"
+    class="mobile-toc__scroller"
     id="cv-toc-mobile"
     role="navigation"
     aria-label="CV sections"
   >
     {
       sections.map((s) => (
-        <a
-          href={`#${s.id}`}
-          data-toc={s.id}
-          class="toc-link shrink-0 touch-manipulation whitespace-nowrap rounded-full border border-desk-line px-3.5 py-2 text-xs"
-        >
+        <a href={`#${s.id}`} data-toc={s.id} class="toc-link">
           {s.label}
         </a>
       ))

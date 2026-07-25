@@ -6,24 +6,24 @@ const contacts = [
 ];
 ---
 
-<header id="top" class="reveal border-b border-rule pb-6 sm:pb-8">
-  <div class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
-    <div class="min-w-0">
+<header id="top" class="reveal border-b border-rule pb-5 sm:pb-8">
+  <div class="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+    <div class="min-w-0 flex-1">
       <h1
-        class="font-display text-[1.85rem] leading-[1.08] tracking-tight text-ink xs:text-4xl sm:text-5xl"
+        class="break-anywhere font-display text-[1.65rem] leading-[1.1] tracking-tight text-ink sm:text-4xl md:text-5xl"
       >
         Emeka Emmanuel Ugonna
       </h1>
-      <p class="mt-1.5 font-display text-lg italic text-ink-soft sm:mt-2 sm:text-2xl">Ugo.B</p>
+      <p class="mt-1 font-display text-base italic text-ink-soft sm:mt-2 sm:text-2xl">Ugo.B</p>
       <p
-        class="mt-2 max-w-xl text-[13px] font-medium leading-snug tracking-wide text-ink-soft sm:mt-3 sm:text-base"
+        class="mt-2 text-[12.5px] font-medium leading-snug text-ink-soft sm:mt-3 sm:text-base"
       >
         Full-Stack Software Engineer · Founder · Legal Scholar
       </p>
     </div>
 
     <div
-      class="w-fit rounded-lg border border-chip-border bg-chip/60 px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-ink-muted sm:text-right"
+      class="w-full rounded-lg border border-chip-border bg-chip/60 px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-ink-muted sm:w-auto sm:shrink-0 sm:text-right"
     >
       <p class="text-[#8a7340]">Status</p>
       <p class="mt-1 normal-case tracking-normal text-ink-soft">Final-year Law · 500L</p>
@@ -32,14 +32,14 @@ const contacts = [
   </div>
 
   <ul
-    class="mt-5 flex flex-col gap-2 border-t border-rule pt-4 text-[13px] text-ink-soft sm:mt-6 sm:flex-row sm:flex-wrap sm:gap-x-5 sm:gap-y-2 sm:text-sm"
+    class="mt-4 flex min-w-0 flex-col gap-1.5 border-t border-rule pt-3.5 text-[12.5px] text-ink-soft sm:mt-6 sm:flex-row sm:flex-wrap sm:gap-x-5 sm:gap-y-2 sm:pt-4 sm:text-sm"
   >
     {
       contacts.map((c) => (
-        <li class="min-w-0">
+        <li class="min-w-0 max-w-full">
           <a
             href={c.href}
-            class="inline-block break-all underline decoration-rule underline-offset-4 transition hover:text-ink hover:decoration-[#8a7340]"
+            class="break-anywhere underline decoration-rule underline-offset-4 transition hover:text-ink hover:decoration-[#8a7340]"
             target={c.external ? "_blank" : undefined}
             rel={c.external ? "noopener noreferrer" : undefined}
           >
