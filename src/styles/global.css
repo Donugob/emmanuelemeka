@@ -1,23 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #0b0d10;
-  --color-ink-elevated: #12151a;
-  --color-ink-soft: #1a1e26;
-  --color-paper: #f4f1ea;
-  --color-paper-muted: #c8c2b4;
-  --color-parchment: #ede6d9;
+  /* Desk (page chrome) */
+  --color-desk: #0c0e12;
+  --color-desk-elevated: #141820;
+  --color-desk-line: rgba(244, 241, 234, 0.08);
+  --color-desk-muted: #8b8680;
+  --color-desk-text: #e8e4db;
   --color-brass: #c4a35a;
-  --color-brass-bright: #d4b86a;
-  --color-brass-dim: #8a7340;
-  --color-line: rgba(244, 241, 234, 0.1);
-  --color-line-strong: rgba(244, 241, 234, 0.18);
+  --color-brass-bright: #d8bc72;
 
-  --font-display: "Instrument Serif", "Times New Roman", serif;
+  /* Paper (the CV document) */
+  --color-paper: #f7f4ec;
+  --color-paper-edge: #e8e2d4;
+  --color-ink: #1a1814;
+  --color-ink-soft: #3d3830;
+  --color-ink-muted: #6b6458;
+  --color-rule: #d9d2c3;
+  --color-rule-strong: #c4a35a;
+  --color-chip: #efe9dc;
+  --color-chip-border: #ddd4c2;
+
+  --font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-paper:
+    0 1px 1px rgba(0, 0, 0, 0.04),
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    0 40px 80px rgba(0, 0, 0, 0.25);
 }
 
 @layer base {
@@ -27,15 +39,16 @@
   }
 
   body {
-    @apply bg-ink text-paper font-sans antialiased;
+    @apply bg-desk font-sans text-desk-text antialiased;
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(196, 163, 90, 0.08), transparent),
-      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(196, 163, 90, 0.04), transparent);
+      radial-gradient(ellipse 90% 60% at 50% -10%, rgba(196, 163, 90, 0.09), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 0% 80%, rgba(196, 163, 90, 0.04), transparent),
+      linear-gradient(180deg, #0c0e12 0%, #0a0c10 100%);
     min-height: 100dvh;
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--color-brass) 40%, transparent);
+    background: color-mix(in srgb, var(--color-brass) 45%, transparent);
     color: var(--color-paper);
   }
 
@@ -45,48 +58,119 @@
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer components {
+  /* The physical CV sheet */
+  .cv-paper {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: var(--shadow-paper);
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, transparent 28%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
   }
 
-  .section-pad {
-    @apply px-5 sm:px-8 lg:px-12;
+  .cv-section {
+    scroll-margin-top: 5.5rem;
   }
 
-  .section-max {
-    @apply mx-auto w-full max-w-6xl;
+  .cv-section-title {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em];
+    color: var(--color-brass-dim, #8a7340);
+    color: #8a7340;
   }
 
-  .hairline {
-    border-color: var(--color-line);
+  .cv-rule {
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-rule-strong), var(--color-rule) 40%, transparent);
+  }
+
+  .cv-entry {
+    @apply relative transition-colors duration-300;
+  }
+
+  .cv-entry:hover {
+    background: color-mix(in srgb, var(--color-brass) 6%, transparent);
+  }
+
+  .cv-chip {
+    @apply inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[11px];
+    background: var(--color-chip);
+    border: 1px solid var(--color-chip-border);
+    color: var(--color-ink-soft);
+  }
+
+  .toc-link {
+    @apply flex items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition;
+    color: var(--color-desk-muted);
+  }
+
+  .toc-link:hover {
+    color: var(--color-desk-text);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .toc-link.is-active {
+    color: var(--color-brass-bright);
+    background: rgba(196, 163, 90, 0.1);
+  }
+
+  .toc-link.is-active .toc-dot {
+    background: var(--color-brass);
+    box-shadow: 0 0 0 3px rgba(196, 163, 90, 0.25);
+  }
+
+  .expand-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s var(--ease-out-expo);
+  }
+
+  .expand-panel.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .expand-panel > div {
+    overflow: hidden;
   }
 
   .reveal {
     opacity: 0;
-    transform: translateY(1.25rem);
+    transform: translateY(0.75rem);
     transition:
-      opacity 0.7s var(--ease-out-expo),
-      transform 0.7s var(--ease-out-expo);
+      opacity 0.65s var(--ease-out-expo),
+      transform 0.65s var(--ease-out-expo);
   }
 
   .reveal.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 
   .reveal-delay-1 {
-    transition-delay: 80ms;
+    transition-delay: 60ms;
   }
   .reveal-delay-2 {
-    transition-delay: 160ms;
+    transition-delay: 120ms;
   }
   .reveal-delay-3 {
-    transition-delay: 240ms;
+    transition-delay: 180ms;
   }
   .reveal-delay-4 {
-    transition-delay: 320ms;
+    transition-delay: 240ms;
   }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Reading progress */
+#read-progress {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.08s linear;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -99,19 +183,44 @@
     transform: none;
     transition: none;
   }
+
+  .expand-panel {
+    transition: none;
+  }
 }
 
-/* Print / CV stylesheet */
+/* Print = pure CV document */
 @media print {
-  body {
-    background: white !important;
-    color: black !important;
-    background-image: none !important;
+  @page {
+    margin: 12mm;
   }
 
-  nav,
-  .no-print {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    background: white !important;
+    background-image: none !important;
+    color: black !important;
+  }
+
+  .no-print,
+  #read-progress,
+  aside[aria-label="CV sections"] {
     display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .cv-paper {
+    box-shadow: none !important;
+    background: white !important;
+    max-width: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
   }
 
   a {
@@ -119,7 +228,15 @@
     text-decoration: none !important;
   }
 
-  section {
-    break-inside: avoid;
+  .cv-entry:hover {
+    background: transparent !important;
+  }
+
+  .expand-panel {
+    grid-template-rows: 1fr !important;
+  }
+
+  .print-hide-details .expand-panel:not(.is-open) {
+    grid-template-rows: 0fr !important;
   }
 }

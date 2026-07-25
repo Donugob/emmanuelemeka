@@ -7,8 +7,8 @@ interface Props {
 }
 
 const {
-  title = "Emeka Emmanuel Ugonna · Ugo.B — Engineer, Founder & Legal Scholar",
-  description = "Full-stack software engineer and legal scholar operating at the intersection of high-concurrency digital platforms and digital jurisprudence. Founder of Build With Ugo.B and Votesphere.",
+  title = "Emeka Emmanuel Ugonna · Ugo.B — Curriculum Vitae",
+  description = "Interactive curriculum vitae of Emeka Emmanuel Ugonna (Ugo.B) — full-stack software engineer, founder, and legal scholar. Votesphere, Build With Ugo.B, and digital jurisprudence.",
 } = Astro.props;
 
 const canonical = "https://emmanuelemeka.cv";
@@ -22,7 +22,7 @@ const canonical = "https://emmanuelemeka.cv";
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="author" content="Emeka Emmanuel Ugonna" />
-    <meta name="theme-color" content="#0B0D10" />
+    <meta name="theme-color" content="#0C0E12" />
 
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -49,55 +49,145 @@ const canonical = "https://emmanuelemeka.cv";
   <body class="overflow-x-hidden">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-brass focus:px-4 focus:py-2 focus:text-ink focus:font-medium"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-brass focus:px-4 focus:py-2 focus:font-medium focus:text-ink"
     >
       Skip to content
     </a>
     <slot />
+
     <script>
-      const observer = new IntersectionObserver(
+      // ——— Reveal on scroll ———
+      const revealObserver = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
             if (entry.isIntersecting) {
               entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
+              revealObserver.unobserve(entry.target);
             }
           }
         },
-        { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+        { rootMargin: "0px 0px -6% 0px", threshold: 0.06 },
       );
+      document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
-      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+      // ——— Reading progress ———
+      const progress = document.getElementById("read-progress");
+      const paper = document.querySelector(".cv-paper");
 
-      // Metric count-up once visible
-      const counters = document.querySelectorAll<HTMLElement>("[data-count]");
-      const countObserver = new IntersectionObserver(
+      const updateProgress = () => {
+        if (!progress || !paper) return;
+        const rect = paper.getBoundingClientRect();
+        const total = paper.scrollHeight - window.innerHeight;
+        const scrolled = Math.min(Math.max(-rect.top, 0), Math.max(total, 1));
+        const p = total > 0 ? scrolled / total : 0;
+        progress.style.transform = `scaleX(${p})`;
+      };
+
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      window.addEventListener("resize", updateProgress, { passive: true });
+      updateProgress();
+
+      // ——— Active TOC section ———
+      const sectionIds = [
+        "profile",
+        "experience",
+        "education",
+        "leadership",
+        "skills",
+        "media",
+        "contact",
+      ];
+      const tocLinks = document.querySelectorAll<HTMLElement>("[data-toc]");
+
+      const setActive = (id: string) => {
+        tocLinks.forEach((link) => {
+          link.classList.toggle("is-active", link.dataset.toc === id);
+        });
+      };
+
+      const sectionObserver = new IntersectionObserver(
         (entries) => {
-          for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-            const el = entry.target as HTMLElement;
-            const target = Number(el.dataset.count);
-            const suffix = el.dataset.suffix ?? "";
-            const prefix = el.dataset.prefix ?? "";
-            const duration = 1200;
-            const start = performance.now();
-
-            const tick = (now: number) => {
-              const t = Math.min(1, (now - start) / duration);
-              const eased = 1 - Math.pow(1 - t, 3);
-              const value = Math.round(target * eased);
-              el.textContent = `${prefix}${value.toLocaleString()}${suffix}`;
-              if (t < 1) requestAnimationFrame(tick);
-            };
-
-            requestAnimationFrame(tick);
-            countObserver.unobserve(el);
-          }
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+          if (visible[0]?.target?.id) setActive(visible[0].target.id);
         },
-        { threshold: 0.4 },
+        { rootMargin: "-20% 0px -55% 0px", threshold: [0.1, 0.25, 0.5] },
       );
 
-      counters.forEach((el) => countObserver.observe(el));
+      sectionIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) sectionObserver.observe(el);
+      });
+
+      // ——— Expandable experience rows ———
+      document.querySelectorAll<HTMLButtonElement>("[data-exp-toggle]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const panelId = btn.getAttribute("aria-controls");
+          const panel = panelId ? document.getElementById(panelId) : null;
+          if (!panel) return;
+
+          const open = panel.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+          const chevron = btn.querySelector(".exp-chevron");
+          if (chevron instanceof HTMLElement) {
+            chevron.style.transform = open ? "rotate(180deg)" : "";
+          }
+        });
+
+        // Sync chevron for default-open panels
+        const panelId = btn.getAttribute("aria-controls");
+        const panel = panelId ? document.getElementById(panelId) : null;
+        if (panel?.classList.contains("is-open")) {
+          const chevron = btn.querySelector(".exp-chevron");
+          if (chevron instanceof HTMLElement) chevron.style.transform = "rotate(180deg)";
+        }
+      });
+
+      // ——— Keyboard section jump (1–7), ignore when typing ———
+      const keyMap: Record<string, string> = {
+        "1": "profile",
+        "2": "experience",
+        "3": "education",
+        "4": "leadership",
+        "5": "skills",
+        "6": "media",
+        "7": "contact",
+      };
+
+      window.addEventListener("keydown", (e) => {
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        const tag = (e.target as HTMLElement)?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable)
+          return;
+        const id = keyMap[e.key];
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          setActive(id);
+        }
+      });
+
+      // ——— Print ———
+      document.getElementById("btn-print")?.addEventListener("click", () => window.print());
+
+      // ——— Copy email ———
+      const copyBtn = document.getElementById("btn-copy-email");
+      copyBtn?.addEventListener("click", async () => {
+        const email = copyBtn.getAttribute("data-email") ?? "";
+        const label = copyBtn.querySelector("[data-copy-label]");
+        try {
+          await navigator.clipboard.writeText(email);
+          if (label) label.textContent = "Copied";
+          setTimeout(() => {
+            if (label) label.textContent = "Copy email";
+          }, 1800);
+        } catch {
+          if (label) label.textContent = "Copy failed";
+        }
+      });
     </script>
   </body>
 </html>

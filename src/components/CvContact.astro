@@ -1,0 +1,71 @@
+---
+---
+
+<section
+  id="contact"
+  class="cv-section reveal reveal-delay-1 pt-10 pb-2"
+  aria-labelledby="contact-h"
+>
+  <div class="mb-3 flex items-center gap-3">
+    <h2 id="contact-h" class="cv-section-title">07 — Contact & Engagements</h2>
+    <div class="cv-rule flex-1"></div>
+  </div>
+
+  <div class="rounded-xl border border-chip-border bg-gradient-to-br from-chip/80 to-paper px-5 py-6 sm:px-6">
+    <p class="font-display text-2xl leading-snug text-ink sm:text-3xl">
+      Open to builds that have to hold up.
+    </p>
+    <p class="mt-3 max-w-prose text-sm leading-relaxed text-ink-soft">
+      Product engineering, platform builds, agency work via Build With Ugo.B, and tech–law
+      conversations around cybercrime, equity, and digital governance.
+    </p>
+
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <a
+        href="mailto:hello@emmanuelemeka.cv"
+        class="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-paper transition hover:bg-ink-soft"
+      >
+        Email me
+      </a>
+      <button
+        type="button"
+        id="btn-copy-email"
+        class="inline-flex items-center gap-2 rounded-full border border-chip-border bg-paper px-5 py-2.5 text-sm font-medium text-ink-soft transition hover:border-[#8a7340]/hover:text-ink"
+        data-email="hello@emmanuelemeka.cv"
+      >
+        <span data-copy-label>Copy email</span>
+      </button>
+      <button
+        type="button"
+        class="no-print inline-flex items-center gap-2 rounded-full border border-chip-border bg-paper px-5 py-2.5 text-sm font-medium text-ink-soft transition hover:border-[#8a7340] hover:text-ink sm:hidden"
+        onclick="window.print()"
+      >
+        Print CV
+      </button>
+    </div>
+
+    <ul class="mt-6 grid gap-2 border-t border-rule pt-5 text-sm text-ink-soft sm:grid-cols-2">
+      {
+        [
+          "High-concurrency web platforms & SaaS",
+          "Custom agency builds & audits",
+          "Tech equity & founder contracts (advisory)",
+          "Speaking, Spaces, legal-tech education",
+        ].map((item) => (
+          <li class="flex gap-2">
+            <span class="text-[#8a7340]">✓</span>
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <footer class="mt-10 flex flex-wrap items-end justify-between gap-3 border-t border-rule pt-6 text-xs text-ink-muted">
+    <div>
+      <p class="font-display text-base text-ink">Emeka Emmanuel Ugonna · Ugo.B</p>
+      <p class="mt-1 font-mono">emmanuelemeka.cv</p>
+    </div>
+    <p class="font-mono">References available on request</p>
+  </footer>
+</section>

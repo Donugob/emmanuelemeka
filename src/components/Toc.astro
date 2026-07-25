@@ -1,0 +1,57 @@
+---
+const sections = [
+  { id: "profile", label: "Profile", key: "1" },
+  { id: "experience", label: "Experience", key: "2" },
+  { id: "education", label: "Education", key: "3" },
+  { id: "leadership", label: "Leadership", key: "4" },
+  { id: "skills", label: "Skills", key: "5" },
+  { id: "media", label: "Media", key: "6" },
+  { id: "contact", label: "Contact", key: "7" },
+];
+---
+
+<aside
+  class="no-print hidden xl:block"
+  aria-label="CV sections"
+>
+  <nav class="sticky top-24 w-44" aria-label="On this CV">
+    <p class="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-desk-muted">
+      Sections
+    </p>
+    <ul class="space-y-0.5" id="cv-toc">
+      {
+        sections.map((s) => (
+          <li>
+            <a href={`#${s.id}`} class="toc-link" data-toc={s.id}>
+              <span class="toc-dot h-1.5 w-1.5 shrink-0 rounded-full bg-desk-muted/50" />
+              <span class="flex-1">{s.label}</span>
+              <kbd class="font-mono text-[10px] text-desk-muted/60">{s.key}</kbd>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 font-mono text-[10px] leading-relaxed text-desk-muted/70">
+      Press <kbd class="text-desk-muted">1–7</kbd> to jump sections
+    </p>
+  </nav>
+</aside>
+
+<!-- Mobile section chips -->
+<div
+  class="no-print sticky top-14 z-40 -mx-1 mb-6 overflow-x-auto border-b border-desk-line bg-desk/90 px-1 py-2 backdrop-blur-md xl:hidden"
+>
+  <div class="flex min-w-max gap-1.5" id="cv-toc-mobile" role="navigation" aria-label="CV sections">
+    {
+      sections.map((s) => (
+        <a
+          href={`#${s.id}`}
+          data-toc={s.id}
+          class="toc-link whitespace-nowrap rounded-full border border-desk-line px-3 py-1 text-xs"
+        >
+          {s.label}
+        </a>
+      ))
+    }
+  </div>
+</div>

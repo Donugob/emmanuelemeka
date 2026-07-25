@@ -1,0 +1,48 @@
+---
+const items = [
+  {
+    title: "Campus Director",
+    org: "Law Students' Association of Nigeria (LAWSAN)",
+    note: "Award of Honor Recipient",
+    period: "Former",
+  },
+  {
+    title: "State Director",
+    org: "Directorate of Students' Rights",
+    note: "Student rights advocacy & leadership",
+    period: "Former",
+  },
+  {
+    title: "Chairman, Constitution Drafting Committee",
+    org: "Omenwanne Age Grade",
+    note: "Drafting constitutional frameworks and statutory structures for community governance",
+    period: "Present",
+  },
+];
+---
+
+<section
+  id="leadership"
+  class="cv-section reveal reveal-delay-1 pt-10"
+  aria-labelledby="leadership-h"
+>
+  <div class="mb-3 flex items-center gap-3">
+    <h2 id="leadership-h" class="cv-section-title">04 — Leadership & Governance</h2>
+    <div class="cv-rule flex-1"></div>
+  </div>
+
+  <ul class="divide-y divide-rule">
+    {
+      items.map((item) => (
+        <li class="cv-entry flex flex-wrap items-start justify-between gap-2 px-3 py-4">
+          <div>
+            <h3 class="font-medium text-ink">{item.title}</h3>
+            <p class="text-sm text-ink-soft">{item.org}</p>
+            <p class="mt-1 text-sm text-ink-muted">{item.note}</p>
+          </div>
+          <time class="font-mono text-xs text-ink-muted">{item.period}</time>
+        </li>
+      ))
+    }
+  </ul>
+</section>

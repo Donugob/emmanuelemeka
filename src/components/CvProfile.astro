@@ -1,0 +1,31 @@
+---
+---
+
+<section id="profile" class="cv-section reveal reveal-delay-1 pt-10" aria-labelledby="profile-h">
+  <div class="mb-3 flex items-center gap-3">
+    <h2 id="profile-h" class="cv-section-title">01 — Profile</h2>
+    <div class="cv-rule flex-1"></div>
+  </div>
+
+  <p class="max-w-prose text-[15px] leading-relaxed text-ink-soft sm:text-base">
+    Operating at the rare intersection of modern software engineering and digital
+    jurisprudence. I design and ship high-concurrency digital platforms while mastering
+    tech law, cybercrime analysis, and constitutional governance — building systems people
+    trust, and understanding the law that makes them legitimate.
+  </p>
+
+  <dl class="mt-6 grid gap-3 sm:grid-cols-3">
+    {
+      [
+        { t: "Focus", d: "Software systems × tech law" },
+        { t: "Studio", d: "Build With Ugo.B" },
+        { t: "Flagship", d: "Votesphere" },
+      ].map((item) => (
+        <div class="rounded-lg border border-chip-border bg-chip/40 px-3 py-2.5">
+          <dt class="font-mono text-[10px] uppercase tracking-[0.16em] text-[#8a7340]">{item.t}</dt>
+          <dd class="mt-1 text-sm font-medium text-ink">{item.d}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>

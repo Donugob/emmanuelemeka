@@ -1,0 +1,205 @@
+---
+const roles = [
+  {
+    id: "votesphere",
+    title: "Creator & Core Engineer",
+    org: "Votesphere",
+    orgUrl: "https://votesphere.com.ng",
+    location: "Remote · Nigeria",
+    period: "Present",
+    summary:
+      "Secure, high-concurrency online voting platform for live monetized and non-monetized events — including elections.",
+    bullets: [
+      "Engineered for live concurrent traffic during voting events and elections",
+      "Integrated Paystack, Flutterwave, and Monnify payment gateways",
+      "Built secure voting verification algorithms and live result streaming",
+      "Shipped custom analytics for event operators",
+    ],
+    metrics: [
+      { label: "Gross · first 2 weeks", value: "1.6M+" },
+      { label: "Net profit · same window", value: "100k+" },
+    ],
+    tags: ["SaaS", "Realtime", "Payments", "Elections"],
+    featured: true,
+  },
+  {
+    id: "studio",
+    title: "Founder & Principal Engineer",
+    org: "Build With Ugo.B",
+    orgUrl: "https://build-with-ugob.com.ng",
+    location: "Remote · Nigeria",
+    period: "Present",
+    summary:
+      "Digital product studio engineering custom high-performance web applications, modern APIs, and scalable infrastructure.",
+    bullets: [
+      "Custom web architectures for client products",
+      "Performance & optimization audits",
+      "High-converting client applications end-to-end",
+    ],
+    metrics: [],
+    tags: ["Agency", "Web Apps", "APIs"],
+    featured: false,
+  },
+  {
+    id: "naija",
+    title: "Creator & Legal Educator",
+    org: "NaijaLawExplained",
+    orgUrl: null,
+    location: "YouTube & social",
+    period: "Ongoing",
+    summary:
+      "Faceless legal enlightenment brand simplifying complex Nigerian statutes into digestible visual guides and video content.",
+    bullets: [
+      "Statutory law broken down for everyday citizens",
+      "Visual guides and multi-platform distribution",
+    ],
+    metrics: [],
+    tags: ["Media", "Legal Education"],
+    featured: false,
+  },
+  {
+    id: "street",
+    title: "Host",
+    org: "Street Saga Podcast",
+    orgUrl: null,
+    location: "X Spaces",
+    period: "Ongoing",
+    summary:
+      "Live interactive broadcasts on tech engineering, career growth, law, and social dynamics.",
+    bullets: [
+      "High-engagement live community conversations",
+      "Rights advocacy and technical culture",
+    ],
+    metrics: [],
+    tags: ["Audio", "Advocacy"],
+    featured: false,
+  },
+];
+---
+
+<section
+  id="experience"
+  class="cv-section reveal reveal-delay-1 pt-10"
+  aria-labelledby="experience-h"
+>
+  <div class="mb-3 flex items-center gap-3">
+    <h2 id="experience-h" class="cv-section-title">02 — Experience</h2>
+    <div class="cv-rule flex-1"></div>
+  </div>
+
+  <p class="mb-5 text-sm text-ink-muted">
+    Click a role to expand detail. Flagship metrics animate when revealed.
+  </p>
+
+  <ol class="relative space-y-1 border-l border-rule pl-0 sm:pl-0">
+    {
+      roles.map((role, index) => (
+        <li class="cv-entry group rounded-lg">
+          <button
+            type="button"
+            class="exp-toggle flex w-full items-start gap-3 px-3 py-4 text-left sm:gap-4"
+            aria-expanded={role.featured ? "true" : "false"}
+            aria-controls={`exp-${role.id}`}
+            data-exp-toggle
+          >
+            <span
+              class="mt-1.5 hidden h-2.5 w-2.5 shrink-0 rounded-full border-2 border-[#8a7340] bg-paper sm:block"
+              aria-hidden="true"
+            />
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                <div>
+                  <p class="font-medium text-ink">
+                    {role.title}
+                    {role.featured && (
+                      <span class="ml-2 align-middle font-mono text-[10px] font-normal uppercase tracking-wider text-[#8a7340]">
+                        Flagship
+                      </span>
+                    )}
+                  </p>
+                  <p class="text-sm text-ink-soft">
+                    <span class="font-medium text-ink-soft">{role.org}</span>
+                    <span class="text-ink-muted"> · {role.location}</span>
+                    {role.orgUrl && (
+                      <span class="text-ink-muted">
+                        {" "}
+                        ·{" "}
+                        <span class="underline decoration-rule underline-offset-2">
+                          {role.orgUrl.replace(/^https?:\/\//, "")}
+                        </span>
+                      </span>
+                    )}
+                  </p>
+                </div>
+                <time class="shrink-0 font-mono text-xs text-ink-muted">{role.period}</time>
+              </div>
+              <p class="mt-1.5 text-sm leading-relaxed text-ink-muted">{role.summary}</p>
+            </div>
+            <span
+              class="exp-chevron mt-1 shrink-0 text-ink-muted transition-transform duration-300"
+              aria-hidden="true"
+            >
+              <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M4 6l4 4 4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </button>
+
+          <div
+            id={`exp-${role.id}`}
+            class:list={["expand-panel px-3 sm:pl-10", role.featured && "is-open"]}
+            data-exp-panel
+          >
+            <div>
+              <div class="border-t border-rule/80 pb-4 pt-3">
+                <ul class="space-y-1.5">
+                  {role.bullets.map((b) => (
+                    <li class="flex gap-2 text-sm leading-relaxed text-ink-soft">
+                      <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#8a7340]" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+
+                {role.metrics.length > 0 && (
+                  <div class="mt-4 grid grid-cols-2 gap-2 sm:max-w-md">
+                    {role.metrics.map((m) => (
+                      <div class="rounded-md border border-chip-border bg-chip/50 px-3 py-2">
+                        <p class="font-display text-2xl text-ink">{m.value}</p>
+                        <p class="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+                          {m.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div class="mt-3 flex flex-wrap items-center gap-1.5">
+                  {role.tags.map((t) => (
+                    <span class="cv-chip">{t}</span>
+                  ))}
+                  {role.orgUrl && (
+                    <a
+                      href={role.orgUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="cv-chip ml-1 border-[#8a7340]/40 text-[#8a7340] transition hover:bg-[#8a7340]/10"
+                    >
+                      Visit site ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>

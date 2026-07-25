@@ -1,24 +1,69 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
-import Hero from "../components/Hero.astro";
-import SelectedWork from "../components/SelectedWork.astro";
-import Scholarship from "../components/Scholarship.astro";
-import Capabilities from "../components/Capabilities.astro";
-import Media from "../components/Media.astro";
-import Contact from "../components/Contact.astro";
-import Footer from "../components/Footer.astro";
+import Toc from "../components/Toc.astro";
+import CvHeader from "../components/CvHeader.astro";
+import CvProfile from "../components/CvProfile.astro";
+import CvExperience from "../components/CvExperience.astro";
+import CvEducation from "../components/CvEducation.astro";
+import CvLeadership from "../components/CvLeadership.astro";
+import CvSkills from "../components/CvSkills.astro";
+import CvMedia from "../components/CvMedia.astro";
+import CvContact from "../components/CvContact.astro";
 ---
 
 <Layout>
   <Nav />
-  <main id="main">
-    <Hero />
-    <SelectedWork />
-    <Scholarship />
-    <Capabilities />
-    <Media />
-    <Contact />
+  <main id="main" class="px-4 pb-20 pt-20 sm:px-6 lg:px-8">
+    <div class="mx-auto grid max-w-6xl gap-10 xl:grid-cols-[11rem_minmax(0,1fr)] xl:gap-12">
+      <Toc />
+
+      <div class="min-w-0">
+        <!-- Ambient glow behind paper -->
+        <div class="relative">
+          <div
+            class="pointer-events-none absolute -inset-4 rounded-[2rem] bg-brass/5 blur-2xl no-print"
+            aria-hidden="true"
+          >
+          </div>
+
+          <article
+            class="cv-paper relative rounded-sm px-5 py-8 sm:rounded-md sm:px-10 sm:py-12 md:px-14 md:py-14"
+            aria-label="Curriculum Vitae of Emeka Emmanuel Ugonna"
+          >
+            <!-- Corner marks — document craft detail -->
+            <div
+              class="pointer-events-none absolute left-3 top-3 h-3 w-3 border-l border-t border-rule no-print sm:left-4 sm:top-4"
+              aria-hidden="true"
+            >
+            </div>
+            <div
+              class="pointer-events-none absolute right-3 top-3 h-3 w-3 border-r border-t border-rule no-print sm:right-4 sm:top-4"
+              aria-hidden="true"
+            >
+            </div>
+            <div
+              class="pointer-events-none absolute bottom-3 left-3 h-3 w-3 border-b border-l border-rule no-print sm:bottom-4 sm:left-4"
+              aria-hidden="true"
+            >
+            </div>
+            <div
+              class="pointer-events-none absolute bottom-3 right-3 h-3 w-3 border-b border-r border-rule no-print sm:bottom-4 sm:right-4"
+              aria-hidden="true"
+            >
+            </div>
+
+            <CvHeader />
+            <CvProfile />
+            <CvExperience />
+            <CvEducation />
+            <CvLeadership />
+            <CvSkills />
+            <CvMedia />
+            <CvContact />
+          </article>
+        </div>
+      </div>
+    </div>
   </main>
-  <Footer />
 </Layout>
