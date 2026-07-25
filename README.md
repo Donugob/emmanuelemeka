@@ -36,7 +36,7 @@ This repo includes `pxxl.toml` for Pxxl’s install → build → start pipeline
 | ------- | -------------------------------------------- |
 | Install | `npm install`                                |
 | Build   | `npm run build`                              |
-| Start   | `npm start` → Astro preview on `0.0.0.0:$PORT` |
+| Start   | `npm start` → static `serve` of `dist/` on `0.0.0.0:$PORT` |
 
 In the dashboard, ensure **Port** matches `4321` (or whatever `PORT` you set), or leave the app reading `process`/CLI `PORT` (already wired).
 

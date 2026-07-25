@@ -1,5 +1,5 @@
 # Pxxl deploy config — https://docs.pxxl.app/api/pxxl-toml
-# Static Astro site: build to dist/, then serve via preview on PORT.
+# Static Astro site: build to dist/, then serve with `serve` (not vite preview).
 
 [build]
 language = "javascript"
