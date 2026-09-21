@@ -1,35 +1,24 @@
 @import "tailwindcss";
 
+/* ————————————————————————————————————————————————
+   Tokens. Five colour values, one typeface, one easing.
+   Everything else in this file is structure, not decoration.
+   ———————————————————————————————————————————————— */
 @theme {
-  /* Desk (page chrome) */
-  --color-desk: #0c0e12;
-  --color-desk-elevated: #141820;
-  --color-desk-line: rgba(244, 241, 234, 0.08);
-  --color-desk-muted: #8b8680;
-  --color-desk-text: #e8e4db;
-  --color-brass: #c4a35a;
-  --color-brass-bright: #d8bc72;
+  --color-paper: #fcfcfb;
+  --color-ink: #16161a;
+  --color-ink-2: #55555e;
+  --color-rule: #dcdcde;
+  --color-mark: #7a1f2b;
 
-  /* Paper (the CV document) */
-  --color-paper: #f7f4ec;
-  --color-paper-edge: #e8e2d4;
-  --color-ink: #1a1814;
-  --color-ink-soft: #3d3830;
-  --color-ink-muted: #6b6458;
-  --color-rule: #d9d2c3;
-  --color-rule-strong: #c4a35a;
-  --color-chip: #efe9dc;
-  --color-chip-border: #ddd4c2;
+  --font-serif: "Spectral", ui-serif, Georgia, "Times New Roman", serif;
 
-  --font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --shadow-paper:
-    0 1px 1px rgba(0, 0, 0, 0.04),
-    0 8px 28px rgba(0, 0, 0, 0.28),
-    0 24px 48px rgba(0, 0, 0, 0.18);
+:root {
+  /* One column, so the page is sized by the measure rather than by a grid. */
+  --page-max: 42rem;
 }
 
 @layer base {
@@ -40,27 +29,66 @@
   }
 
   html {
-    scroll-behavior: smooth;
-    color-scheme: dark;
+    background: var(--color-paper);
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    /* Prevent mobile “zoomed layout” from horizontal overflow */
+    scroll-behavior: smooth;
+    /* Guards the horizontal-overflow bug fixed in 2a17b2a / 9aabba9 */
     overflow-x: clip;
     max-width: 100%;
   }
 
   body {
-    @apply bg-desk font-sans text-desk-text antialiased;
-    background-image:
-      radial-gradient(ellipse 90% 50% at 50% -15%, rgba(196, 163, 90, 0.08), transparent 55%),
-      linear-gradient(180deg, #0c0e12 0%, #0a0c10 100%);
+    @apply bg-paper font-serif text-ink;
+    margin: 0;
     min-height: 100dvh;
     max-width: 100%;
     overflow-x: clip;
-    margin: 0;
-    /* Safe areas for notched phones */
+    font-size: 1rem;
+    line-height: 1.6;
+    font-kerning: normal;
+    font-variant-numeric: lining-nums;
+    /* Notches: the sheet is full-bleed, so respect the safe areas */
     padding-left: env(safe-area-inset-left, 0);
     padding-right: env(safe-area-inset-right, 0);
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  time {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: var(--color-rule);
+    transition: text-decoration-color 0.18s ease, color 0.18s ease;
+  }
+
+  a:hover {
+    text-decoration-color: var(--color-mark);
   }
 
   img,
@@ -71,236 +99,214 @@
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--color-brass) 45%, transparent);
-    color: var(--color-paper);
+    background: color-mix(in srgb, var(--color-mark) 18%, transparent);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brass);
-    outline-offset: 2px;
+    outline: 2px solid var(--color-mark);
+    outline-offset: 3px;
   }
 }
 
 @layer components {
-  .cv-paper {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-    box-shadow: var(--shadow-paper);
-    background-image:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 28%),
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  .sheet {
     width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    max-width: var(--page-max);
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 2.5rem);
   }
 
+  /**
+   * Section headings are the only structural device left, so they carry the
+   * document's rhythm: a rule closing the heading, spanning the full column.
+   *
+   * The two gaps below are named rather than left to spacing utilities, so each
+   * medium can set its own without a component knowing which one it is in.
+   */
   .cv-section {
-    /* nav (3.5rem) + mobile toc (~3rem) + breathing room */
-    scroll-margin-top: 7.25rem;
+    margin-top: 3.25rem;
+    scroll-margin-top: 2rem;
   }
 
-  @media (min-width: 1280px) {
-    .cv-section {
-      scroll-margin-top: 5.5rem;
-    }
+  .section-head {
+    border-bottom: 1px solid var(--color-rule);
+    padding-bottom: 0.5rem;
   }
 
-  .cv-section-title {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #8a7340;
-    line-height: 1.3;
+  .cv-group {
+    margin-top: 1.75rem;
   }
 
-  @media (min-width: 640px) {
-    .cv-section-title {
-      font-size: 0.6875rem;
-      letter-spacing: 0.2em;
-    }
+  .cv-group > * + * {
+    margin-top: 2.25rem;
   }
 
-  .cv-rule {
-    height: 1px;
-    min-width: 1rem;
-    flex: 1 1 auto;
-    background: linear-gradient(90deg, var(--color-rule-strong), var(--color-rule) 40%, transparent);
-  }
-
-  .cv-entry {
-    position: relative;
-    transition: background-color 0.25s ease;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .cv-entry:hover {
-      background: color-mix(in srgb, var(--color-brass) 6%, transparent);
-    }
-  }
-
-  .cv-chip {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 0.375rem;
-    padding: 0.2rem 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    line-height: 1.3;
-    background: var(--color-chip);
-    border: 1px solid var(--color-chip-border);
-    color: var(--color-ink-soft);
-    max-width: 100%;
-  }
-
-  @media (min-width: 640px) {
-    .cv-chip {
-      font-size: 0.6875rem;
-    }
-  }
-
-  .toc-link {
+  /**
+   * Role or degree on the left, its date flush right.
+   *
+   * The date column is what makes a CV scannable by period, and it is the part
+   * of the old margin that was actually doing work — so it survives the loss of
+   * the margin itself.
+   */
+  .entry-head {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-radius: 9999px;
-    padding: 0.45rem 0.85rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.1rem 1.25rem;
+  }
+
+  /* A short label beside its value: skills groups, focus areas. */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  @media (min-width: 640px) {
+    .field {
+      flex-direction: row;
+      gap: 1.5rem;
+    }
+
+    .field > :first-child {
+      flex: 0 0 7.5rem;
+    }
+  }
+
+  .meta {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-ink-2);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* The one place a number survives: the contents list, where it is the
+     navigation and doubles as the keyboard shortcut for that section. */
+  .clause {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-mark);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .measure {
+    max-width: 68ch;
+  }
+
+  /* Long emails and domains must never widen the document. */
+  .unbreakable {
+    overflow-wrap: anywhere;
+  }
+
+  /* Link-shaped buttons, so actions sit in the text rather than on pills. */
+  .action {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
     text-align: left;
-    font-size: 0.75rem;
-    line-height: 1.2;
-    color: var(--color-desk-muted);
-    transition:
-      color 0.15s ease,
-      background-color 0.15s ease,
-      border-color 0.15s ease;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: var(--color-rule);
+    transition: text-decoration-color 0.18s ease;
   }
 
-  @media (min-width: 1280px) {
-    .toc-link {
-      border-radius: 0.375rem;
-      padding: 0.375rem 0.5rem;
-      font-size: 0.875rem;
-    }
+  .action:hover {
+    text-decoration-color: var(--color-mark);
   }
 
-  .toc-link:hover {
-    color: var(--color-desk-text);
-    background: rgba(255, 255, 255, 0.04);
-  }
-
-  .toc-link.is-active {
-    color: var(--color-brass-bright);
-    background: rgba(196, 163, 90, 0.12);
-    border-color: rgba(196, 163, 90, 0.35);
-  }
-
-  .toc-link.is-active .toc-dot {
-    background: var(--color-brass);
-    box-shadow: 0 0 0 3px rgba(196, 163, 90, 0.25);
-  }
-
-  .expand-panel {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s var(--ease-out-expo);
-  }
-
-  .expand-panel.is-open {
-    grid-template-rows: 1fr;
-  }
-
-  .expand-panel > div {
-    overflow: hidden;
-    min-width: 0;
-  }
-
-  .reveal {
+  /* The single navigation affordance, shown once the masthead scrolls away. */
+  .to-top {
+    position: fixed;
+    right: calc(env(safe-area-inset-right, 0px) + 1.25rem);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+    z-index: 50;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8125rem;
+    color: var(--color-ink-2);
+    background: color-mix(in srgb, var(--color-paper) 92%, transparent);
+    border: 1px solid var(--color-rule);
+    text-decoration: none;
     opacity: 0;
-    transform: translateY(0.5rem);
+    visibility: hidden;
     transition:
-      opacity 0.55s var(--ease-out-expo),
-      transform 0.55s var(--ease-out-expo);
+      opacity 0.2s ease,
+      visibility 0.2s ease,
+      color 0.18s ease,
+      border-color 0.18s ease;
   }
 
-  .reveal.is-visible {
+  .to-top.is-visible {
     opacity: 1;
-    transform: none;
+    visibility: visible;
   }
 
-  .reveal-delay-1 {
-    transition-delay: 40ms;
-  }
-  .reveal-delay-2 {
-    transition-delay: 80ms;
-  }
-  .reveal-delay-3 {
-    transition-delay: 120ms;
-  }
-  .reveal-delay-4 {
-    transition-delay: 160ms;
-  }
-
-  .print-only {
-    display: none;
-  }
-
-  /* Mobile section strip — contained horizontal scroll */
-  .mobile-toc {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    overflow: hidden;
-  }
-
-  .mobile-toc__scroller {
-    display: flex;
-    gap: 0.4rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
-    padding: 0.55rem 0.85rem;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .mobile-toc__scroller::-webkit-scrollbar {
-    display: none;
-  }
-
-  .mobile-toc__scroller > a {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-    border: 1px solid var(--color-desk-line);
-    white-space: nowrap;
+  .to-top:hover {
+    color: var(--color-ink);
+    border-color: var(--color-mark);
   }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .skip-link {
+    position: absolute;
+    left: -9999px;
   }
 
-  .touch-manipulation {
-    touch-action: manipulation;
-  }
-
-  .break-anywhere {
-    overflow-wrap: anywhere;
-    word-break: break-word;
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+    z-index: 100;
+    padding: 0.5rem 0.85rem;
+    background: var(--color-paper);
+    border: 1px solid var(--color-mark);
+    color: var(--color-ink);
+    text-decoration: none;
   }
 }
 
-#read-progress {
+/* ————————————————————————————————————————————————
+   The single orchestrated moment: the rule under the name
+   draws from the left and the name settles. Nothing else moves.
+   ———————————————————————————————————————————————— */
+.masthead-name {
+  animation: settle 700ms var(--ease-out) both;
+}
+
+.masthead-rule {
+  height: 1px;
+  background: var(--color-mark);
   transform-origin: left center;
-  transform: scaleX(0);
-  will-change: transform;
+  animation: draw 700ms var(--ease-out) 100ms both;
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.print-only {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -308,47 +314,49 @@
     scroll-behavior: auto;
   }
 
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .masthead-name,
+  .masthead-rule {
+    animation: none;
   }
 
-  .expand-panel {
+  .to-top {
     transition: none;
   }
 }
 
-/* ——— Professional print CV ——— */
+/* ————————————————————————————————————————————————
+   Print.
+
+   The page and the PDF are the same markup but not the same document. On paper
+   this is a CV, and the conventions differ: black on white, tighter type, no
+   interactive affordances, no marketing copy, entries kept whole. Because the
+   screen layout is already a single column of ruled sections with dates flush
+   right, almost nothing has to be restructured here.
+   ———————————————————————————————————————————————— */
 @media print {
   @page {
     size: A4;
-    margin: 14mm 16mm;
+    margin: 15mm 18mm;
   }
 
-  html {
-    color-scheme: light;
-    background: white !important;
-    overflow: visible !important;
+  /* A CV is black on white. */
+  :root {
+    --color-paper: #fff;
+    --color-ink: #000;
+    --color-ink-2: #333;
+    --color-rule: #999;
+    --color-mark: #000;
   }
 
+  html,
   body {
-    background: white !important;
-    background-image: none !important;
-    color: #111 !important;
-    font-size: 10.5pt;
-    line-height: 1.35;
+    background: #fff !important;
     overflow: visible !important;
-    padding: 0 !important;
+    font-size: 9.5pt;
+    line-height: 1.35;
   }
 
-  .no-print,
-  .screen-only,
-  #read-progress,
-  nav,
-  header.no-print,
-  aside,
-  .mobile-toc {
+  .no-print {
     display: none !important;
   }
 
@@ -356,105 +364,95 @@
     display: block !important;
   }
 
-  #professional-cv-print {
-    display: block !important;
-    color: #111;
-    font-family: "Times New Roman", Times, Georgia, serif;
-    max-width: 100%;
-  }
-
-  #professional-cv-print h1 {
-    font-size: 18pt;
-    font-weight: 700;
-    margin: 0 0 2pt;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-
-  #professional-cv-print .pcv-headline {
-    font-size: 10.5pt;
-    font-style: italic;
-    margin: 0 0 6pt;
-    color: #333;
-  }
-
-  #professional-cv-print .pcv-contact {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 8.5pt;
-    line-height: 1.4;
-    color: #333;
-    margin: 0 0 8pt;
-    border-bottom: 1.5pt solid #111;
-    padding-bottom: 8pt;
-  }
-
-  #professional-cv-print section {
-    margin-top: 10pt;
-    break-inside: avoid;
-  }
-
-  #professional-cv-print h2 {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 9.5pt;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin: 0 0 4pt;
-    padding-bottom: 2pt;
-    border-bottom: 1pt solid #c4a35a;
-    color: #111;
-  }
-
-  #professional-cv-print p {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 9pt;
-    line-height: 1.4;
-    margin: 0 0 4pt;
-    color: #111;
-  }
-
-  #professional-cv-print .pcv-role {
-    margin-bottom: 7pt;
-  }
-
-  #professional-cv-print .pcv-role-head {
-    display: flex;
-    justify-content: space-between;
-    gap: 8pt;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 9.5pt;
-  }
-
-  #professional-cv-print .pcv-role-head strong {
-    font-weight: 700;
-  }
-
-  #professional-cv-print .pcv-role-head span {
-    white-space: nowrap;
-    color: #444;
-    font-size: 8.5pt;
-  }
-
-  #professional-cv-print .pcv-org {
-    font-style: italic;
-    color: #333;
-    margin-bottom: 2pt;
-  }
-
-  #professional-cv-print ul {
-    margin: 2pt 0 0;
-    padding-left: 14pt;
-  }
-
-  #professional-cv-print li {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 9pt;
-    line-height: 1.35;
-    margin-bottom: 1.5pt;
+  .masthead-name,
+  .masthead-rule {
+    animation: none;
   }
 
   a {
-    color: inherit !important;
-    text-decoration: none !important;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* The page margin replaces the sheet's own width and padding. */
+  .sheet {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  /* Trailing space that would otherwise render as a blank final page: the
+     screen's bottom padding, and the viewport-height floor on body. */
+  main {
+    padding-bottom: 0 !important;
+  }
+
+  body {
+    min-height: 0;
+  }
+
+  .measure {
+    max-width: none;
+  }
+
+  /* ——— Masthead ——— */
+  #top {
+    padding-top: 0;
+  }
+
+  .masthead-name {
+    font-size: 19pt;
+    line-height: 1.1;
+  }
+
+  .masthead-rule {
+    height: 1.5pt;
+    margin-block: 7pt;
+  }
+
+  #top ul {
+    margin-top: 7pt;
+    gap: 0 1.1rem;
+  }
+
+  /* ——— Headings: letter-spaced capitals, as a CV sets them. ——— */
+  .section-head h2 {
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+
+  .cv-section {
+    margin-top: 11pt;
+  }
+
+  .section-head {
+    padding-bottom: 2.5pt;
+  }
+
+  .cv-group {
+    margin-top: 4pt;
+  }
+
+  .cv-group > * + * {
+    margin-top: 7pt;
+  }
+
+  /* The footer is three short lines. At the screen's margin it gets pushed onto
+     a page of its own, which is the classic CV widow. */
+  .cv-section > footer {
+    margin-top: 10pt;
+    padding-top: 4pt;
+  }
+
+  /* Keep an entry whole, and never strand a heading at a page foot. */
+  .cv-group > * {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
   }
 }

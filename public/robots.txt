@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Plain-text CV for language models and answer engines
+# https://emmanuelemeka.cv/llms.txt
+
+Sitemap: https://emmanuelemeka.cv/sitemap.xml

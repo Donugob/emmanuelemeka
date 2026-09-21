@@ -1,41 +1,23 @@
 ---
-const channels = [
-  {
-    name: "Street Saga Podcast",
-    role: "Host",
-    platform: "X Spaces",
-    blurb: "Live spaces on tech careers, rights advocacy, engineering craft, and culture.",
-  },
-  {
-    name: "NaijaLawExplained",
-    role: "Founder",
-    platform: "YouTube & social",
-    blurb: "Statutory law demystified — visual guides for everyday Nigerians.",
-  },
-];
+import SectionHead from "./SectionHead.astro";
+import { media } from "../data/cv";
 ---
 
-<section id="media" class="cv-section reveal reveal-delay-1 pt-7 sm:pt-10" aria-labelledby="media-h">
-  <div class="mb-2.5 flex min-w-0 items-center gap-2 sm:mb-3 sm:gap-3">
-    <h2 id="media-h" class="cv-section-title shrink-0">06 — Media & Voice</h2>
-    <div class="cv-rule"></div>
-  </div>
+<section id="media" class="cv-section" aria-labelledby="media-h">
+  <SectionHead id="media" />
 
-  <ul class="divide-y divide-rule">
+  <div class="cv-group">
     {
-      channels.map((ch) => (
-        <li class="cv-entry px-3 py-4">
-          <div class="flex flex-wrap items-baseline justify-between gap-2">
-            <div>
-              <h3 class="font-medium text-ink">{ch.name}</h3>
-              <p class="text-sm text-ink-soft">
-                {ch.role} · {ch.platform}
-              </p>
-            </div>
+      media.map((channel) => (
+        <article>
+          <div class="entry-head">
+            <h3 class="text-[1.0625rem] font-medium">{channel.name}</h3>
+            <p class="meta">{channel.platform}</p>
           </div>
-          <p class="mt-1.5 text-sm text-ink-muted">{ch.blurb}</p>
-        </li>
+          <p class="mt-0.5 text-ink-2">{channel.role}</p>
+          <p class="measure mt-1.5 text-ink-2">{channel.blurb}</p>
+        </article>
       ))
     }
-  </ul>
+  </div>
 </section>

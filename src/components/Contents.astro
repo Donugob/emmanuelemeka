@@ -1,0 +1,27 @@
+---
+import { sections } from "../data/cv";
+---
+
+<!--
+  A document opens by stating its own arrangement, which is what this is.
+  It also carries the keyboard shortcuts, read back off the links themselves
+  by the script in Layout.astro so the two can never disagree.
+-->
+<nav aria-label="Contents" class="no-print mt-14 measure">
+  <ul class="grid gap-x-10 gap-y-0.5 sm:grid-cols-2">
+    {
+      sections.map((section) => (
+        <li>
+          <a
+            href={`#${section.id}`}
+            data-jump={section.key}
+            class="flex gap-3 py-1 no-underline hover:underline"
+          >
+            <span class="clause w-7 shrink-0">{section.clause}</span>
+            <span class="text-ink-2">{section.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

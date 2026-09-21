@@ -1,49 +1,23 @@
 ---
-const groups = [
-  {
-    title: "Frontend",
-    items: ["Next.js", "Astro", "React", "Tailwind CSS", "TypeScript", "HTML5 / CSS3"],
-  },
-  {
-    title: "Backend & Data",
-    items: ["Node.js", "Express", "Prisma ORM", "PostgreSQL", "Supabase", "REST & GraphQL"],
-  },
-  {
-    title: "DevOps & Infra",
-    items: ["Fedora Linux", "Coolify", "Hetzner", "Vercel", "ImageKit", "Open-weight AI"],
-  },
-  {
-    title: "Creative & Law",
-    items: ["Blender", "Figma", "UI/UX", "Cybercrime law", "Equity contracts", "Constitutional drafting"],
-  },
-];
+import SectionHead from "./SectionHead.astro";
+import { skills } from "../data/cv";
 ---
 
-<section id="skills" class="cv-section reveal reveal-delay-1 pt-7 sm:pt-10" aria-labelledby="skills-h">
-  <div class="mb-2.5 flex min-w-0 items-center gap-2 sm:mb-3 sm:gap-3">
-    <h2 id="skills-h" class="cv-section-title shrink-0">05 — Skills & Capabilities</h2>
-    <div class="cv-rule"></div>
-  </div>
+<section id="skills" class="cv-section" aria-labelledby="skills-h">
+  <SectionHead id="skills" />
 
-  <p class="mb-5 max-w-prose text-sm text-ink-muted">
-    What I can own end-to-end, product surface to database to deploy, plus legal and design
-    judgment for high-stakes systems.
-  </p>
-
-  <div class="grid gap-4 sm:grid-cols-2">
+  <!--
+    Label beside a run of tools, so the section reads as a table rather than a
+    field of chips — and needs no second column to align.
+  -->
+  <dl class="cv-group space-y-3">
     {
-      groups.map((g) => (
-        <div class="rounded-lg border border-chip-border bg-chip/30 px-4 py-3">
-          <h3 class="font-mono text-[10px] uppercase tracking-[0.16em] text-[#8a7340]">
-            {g.title}
-          </h3>
-          <ul class="mt-2.5 flex flex-wrap gap-1.5">
-            {g.items.map((item) => (
-              <li class="cv-chip">{item}</li>
-            ))}
-          </ul>
+      skills.map((group) => (
+        <div class="field">
+          <dt class="meta">{group.title}</dt>
+          <dd class="m-0">{group.items.join(", ")}</dd>
         </div>
       ))
     }
-  </div>
+  </dl>
 </section>

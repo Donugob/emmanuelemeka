@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview --host 0.0.0.0 --port 4321",
     "start": "serve dist -l tcp://0.0.0.0:${PORT:-4321}",
+    "artifacts": "node scripts/build-artifacts.mjs",
     "astro": "astro"
   },
   "dependencies": {

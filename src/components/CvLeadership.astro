@@ -1,48 +1,23 @@
 ---
-const items = [
-  {
-    title: "Campus Director",
-    org: "Law Students' Association of Nigeria (LAWSAN)",
-    note: "Award of Honor Recipient",
-    period: "Former",
-  },
-  {
-    title: "State Director",
-    org: "Directorate of Students' Rights",
-    note: "Student rights advocacy & leadership",
-    period: "Former",
-  },
-  {
-    title: "Chairman, Constitution Drafting Committee",
-    org: "Omenwanne Age Grade",
-    note: "Drafting constitutional frameworks and statutory structures for community governance",
-    period: "Present",
-  },
-];
+import SectionHead from "./SectionHead.astro";
+import { leadership } from "../data/cv";
 ---
 
-<section
-  id="leadership"
-  class="cv-section reveal reveal-delay-1 pt-7 sm:pt-10"
-  aria-labelledby="leadership-h"
->
-  <div class="mb-2.5 flex min-w-0 items-center gap-2 sm:mb-3 sm:gap-3">
-    <h2 id="leadership-h" class="cv-section-title shrink-0">04 — Leadership & Governance</h2>
-    <div class="cv-rule"></div>
-  </div>
+<section id="leadership" class="cv-section" aria-labelledby="leadership-h">
+  <SectionHead id="leadership" />
 
-  <ul class="divide-y divide-rule">
+  <div class="cv-group">
     {
-      items.map((item) => (
-        <li class="cv-entry flex flex-wrap items-start justify-between gap-2 px-3 py-4">
-          <div>
-            <h3 class="font-medium text-ink">{item.title}</h3>
-            <p class="text-sm text-ink-soft">{item.org}</p>
-            <p class="mt-1 text-sm text-ink-muted">{item.note}</p>
+      leadership.map((position) => (
+        <article>
+          <div class="entry-head">
+            <h3 class="text-[1.0625rem] font-medium">{position.title}</h3>
+            <time class="meta">{position.period}</time>
           </div>
-          <time class="font-mono text-xs text-ink-muted">{item.period}</time>
-        </li>
+          <p class="mt-0.5 text-ink-2">{position.org}</p>
+          <p class="measure mt-1.5 text-ink-2">{position.note}</p>
+        </article>
       ))
     }
-  </ul>
+  </div>
 </section>

@@ -1,0 +1,21 @@
+---
+import { sections } from "../data/cv";
+
+/**
+ * One section heading, derived from the section id so the heading text can
+ * never disagree with the contents list at the top of the document.
+ *
+ * The rule beneath it is the only structural device left in the design now that
+ * the margin column is gone, so it does the work the numbering used to.
+ */
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const section = sections.find((entry) => entry.id === id);
+---
+
+<header class="section-head">
+  <h2 id={`${id}-h`} class="text-[1.25rem] font-semibold">{section?.label}</h2>
+</header>

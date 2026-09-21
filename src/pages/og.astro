@@ -1,0 +1,113 @@
+---
+/**
+ * A 1200×630 social card, rendered from the same data module as the CV so it
+ * cannot advertise a different name or headline than the page it represents.
+ *
+ * It is a real page rather than a hand-drawn file in `public/` for exactly that
+ * reason: `scripts/build-artifacts.mjs` screenshots it into `public/og.png`.
+ * Styled inline and in absolute units because it is a fixed-size canvas, not a
+ * responsive document.
+ */
+import { identity } from "../data/cv";
+
+const sections = ["1.", "2.", "3.", "4."];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Social card — {identity.fullName}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        background: #fcfcfb;
+        color: #16161a;
+        font-family: "Spectral", Georgia, serif;
+        padding: 84px 88px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .top {
+        display: flex;
+        gap: 56px;
+      }
+      .margin {
+        flex: 0 0 78px;
+        padding-top: 14px;
+        font-size: 22px;
+        line-height: 1.9;
+        color: #7a1f2b;
+        font-variant-numeric: tabular-nums;
+      }
+      .name {
+        font-size: 78px;
+        font-weight: 600;
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+      }
+      .rule {
+        height: 3px;
+        background: #7a1f2b;
+        margin: 30px 0 26px;
+      }
+      .moniker {
+        font-size: 30px;
+        font-weight: 500;
+      }
+      .headline {
+        font-size: 25px;
+        color: #55555e;
+        margin-top: 6px;
+        max-width: 900px;
+      }
+      .standing {
+        font-size: 21px;
+        color: #55555e;
+        margin-top: 4px;
+      }
+      .foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 22px;
+        color: #55555e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="margin">
+        {sections.map((clause) => <div>{clause}</div>)}
+      </div>
+      <div style="flex: 1">
+        <div class="name">{identity.fullName}</div>
+        <div class="rule"></div>
+        <div class="moniker">{identity.moniker}</div>
+        <div class="headline">{identity.headline}</div>
+        <div class="standing">{identity.standing}</div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>{identity.domain}</span>
+      <span>Curriculum Vitae</span>
+    </div>
+  </body>
+</html>
